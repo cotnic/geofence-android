@@ -2,15 +2,16 @@
 
 ## Synopsis
 
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
+Project enables us to define geofences on our mobile devices. Also it's possible to see all the added geofences and remove them.
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+This project was developed for testing how geofences work on Android devices. It was tested on how fast they respond when coming into an area defined with geofence 
+as well as for reaction time based on radius size of geofences. 
 
 ## Installation
 
-Clone the repository to your local environment. In Android Studio you can create a .apk file, which you can install on your Android device.
+Clone the repository to your local environment. In Android Studio you can create an .apk file, which you can install on your Android device.
 
 ## Contributors
 
