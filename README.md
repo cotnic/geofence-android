@@ -23,12 +23,9 @@ To contribute new functionalities follow these steps:
 5. Submit a pull request (PR)
 
 Developer - Mitja J. Kotnik (@cotnic)
+
 Mentor - Matjaž Branko Jurič
 
 ## License
 
-The MIT License (MIT)
-
-Copyright (c) 2017 Mitja J. Kotnik
-
-[License](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
