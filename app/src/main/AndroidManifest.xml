@@ -20,6 +20,8 @@
             </intent-filter>
         </activity>
 
+        <service android:name="services.GeofenceService" />
+
         <!-- Maps Android Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"

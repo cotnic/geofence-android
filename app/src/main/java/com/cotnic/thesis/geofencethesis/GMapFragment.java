@@ -70,7 +70,7 @@ public class GMapFragment extends Fragment implements OnMapReadyCallback {
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.d(TAG, "onMapReady()");
+        Log.wtf(TAG, "onMapReady()");
         MapsInitializer.initialize(getContext());
 
         mGoogleMap = googleMap;

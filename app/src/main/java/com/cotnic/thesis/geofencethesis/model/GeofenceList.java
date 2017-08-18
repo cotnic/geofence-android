@@ -19,6 +19,12 @@ public class GeofenceList {
                         Geofence.GEOFENCE_TRANSITION_ENTER, 1000, Geofence.NEVER_EXPIRE));
         geofenceList.add(new GeofenceModel("Dom 1 - SDL", new LatLng(46.050412, 14.487991), 30,
                 Geofence.GEOFENCE_TRANSITION_EXIT, 1000, Geofence.NEVER_EXPIRE));
+        geofenceList.add(new GeofenceModel("FRI", new LatLng(46.050550, 14.468805), 150,
+                Geofence.GEOFENCE_TRANSITION_ENTER,1000, Geofence.NEVER_EXPIRE));
+        geofenceList.add(new GeofenceModel("g. Viktor", new LatLng(46.045345, 14.480930), 100,
+                Geofence.GEOFENCE_TRANSITION_EXIT, 1000, Geofence.NEVER_EXPIRE));
+        geofenceList.add(new GeofenceModel("Visko polje", new LatLng(46.045971, 14.469456), 100,
+                Geofence.GEOFENCE_TRANSITION_ENTER, 1000, Geofence.NEVER_EXPIRE));
     }
 
     public List<GeofenceModel> returnGeofences() {
