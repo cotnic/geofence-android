@@ -1,5 +1,6 @@
 package com.cotnic.thesis.geofencethesis;
 
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.cotnic.thesis.geofencethesis.model.GeofenceList;
+import com.cotnic.thesis.geofencethesis.model.GeofenceModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -16,8 +19,12 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GMapFragment extends Fragment implements OnMapReadyCallback {
@@ -88,5 +95,28 @@ public class GMapFragment extends Fragment implements OnMapReadyCallback {
                     .build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
+        createGeofenceMarkers();
+    }
+
+    private void createGeofenceMarkers() {
+        GeofenceList geofences = new GeofenceList();
+        ArrayList<GeofenceModel> geofenceList = (ArrayList) geofences.returnGeofences();
+        for (GeofenceModel geofence : geofenceList) {
+            mGoogleMap.addMarker(new MarkerOptions()
+                    .position(geofence.getLocation())
+                    .title(geofence.getREQ_ID())
+                    .snippet((geofence.getTransition() == 1) ? "ENTER" : "EXIT"));
+            mGoogleMap.addCircle(createGeofenceCircle(geofence.getLocation(), geofence.getRadius()));
+        }
+    }
+
+    private CircleOptions createGeofenceCircle(LatLng center, float radius){
+        CircleOptions circleOptions = new CircleOptions();
+        circleOptions.center(center);
+        circleOptions.radius(radius);
+        circleOptions.strokeColor(Color.BLUE);
+        circleOptions.fillColor(0x30ff0000);
+        circleOptions.strokeWidth(2);
+        return circleOptions;
     }
 }
