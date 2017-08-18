@@ -22,6 +22,10 @@ public class LogsFragment extends Fragment {
 
     private TextView mLogView;
     private View mView;
+    private Button mButtonGeofences;
+    private Button mButtonLocations;
+    private Button mButtonClearGeofence;
+    private Button mButtonClearLocation;
 
 
     @Override
@@ -35,7 +39,7 @@ public class LogsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_logs, container, false);
 
         mLogView = (TextView) mView.findViewById(R.id.tvLogging);
-        mLogView.append("Start logging");
+        mLogView.setText("Start logging");
 
         return mView;
     }

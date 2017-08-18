@@ -49,19 +49,27 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp">
 
-            <TextView
-                android:id="@+id/tvLogging"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="LOGS fragment" />
-        </ScrollView>
+        <TextView
+            android:id="@+id/tvLogging"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="LOGS fragment" />
+
+        <TextView
+            android:id="@+id/tvLocations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="LOCATIONS: OFF" />
+
+        <TextView
+            android:id="@+id/tvGeofences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="GEOFENCES: OFF" />
     </LinearLayout>
 
 </LinearLayout>
