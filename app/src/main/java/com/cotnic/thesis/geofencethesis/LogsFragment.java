@@ -9,11 +9,6 @@ import android.view.ViewGroup;
 
 public class LogsFragment extends Fragment {
 
-    public static LogsFragment newInstance() {
-        LogsFragment fragment = new LogsFragment();
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

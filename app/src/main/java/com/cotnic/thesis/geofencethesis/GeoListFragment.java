@@ -9,11 +9,6 @@ import android.view.ViewGroup;
 
 public class GeoListFragment extends Fragment {
 
-    public static GeoListFragment newInstance() {
-        GeoListFragment fragment = new GeoListFragment();
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

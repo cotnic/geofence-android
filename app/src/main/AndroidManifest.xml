@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cotnic.thesis.geofencethesis">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -18,6 +19,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Maps Android Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/gMap_APIKEY"/>
+
+        <!-- Maps -->
+        <uses-feature
+            android:glEsVersion="0x00020000"
+            android:required="true"
+            />
     </application>
 
 </manifest>

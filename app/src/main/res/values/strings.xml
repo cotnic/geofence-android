@@ -3,4 +3,5 @@
     <string name="title_map">Map</string>
     <string name="title_geolist">GeoList</string>
     <string name="title_logs">Logs</string>
+    <string name="gMap_APIKEY">AIzaSyCZU7NU00KBZIyzvpKgsX9bIrSZbf1v_dk</string>
 </resources>
