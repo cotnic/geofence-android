@@ -45,14 +45,14 @@ public class GeofenceService extends IntentService {
             Log.wtf(TAG, errorMessage);
             return;
         }
-
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
-        // Test that the reported transition was of interest.
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
                 geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
 
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
+
+            Log.wtf(TAG, "Triggered geofence was: " + triggeringGeofences.get(0));
 
             String geofenceTransitionDetails = getGeofenceTransitionDetails(
                     geofenceTransition,

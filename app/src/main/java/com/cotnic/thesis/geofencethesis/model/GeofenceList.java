@@ -15,15 +15,15 @@ public class GeofenceList {
 
     public GeofenceList() {
         geofenceList = new ArrayList<>();
-        geofenceList.add(new GeofenceModel("BF", new LatLng(46.050043, 14.473011), 200,
-                        Geofence.GEOFENCE_TRANSITION_ENTER, 1000, Geofence.NEVER_EXPIRE));
-        geofenceList.add(new GeofenceModel("Dom 1 - SDL", new LatLng(46.050412, 14.487991), 30,
-                Geofence.GEOFENCE_TRANSITION_EXIT, 1000, Geofence.NEVER_EXPIRE));
-        geofenceList.add(new GeofenceModel("FRI", new LatLng(46.050550, 14.468805), 150,
+        geofenceList.add(new GeofenceModel("BF", new LatLng(46.050043, 14.473011), 1000,
+                        Geofence.GEOFENCE_TRANSITION_EXIT, 1000, Geofence.NEVER_EXPIRE));
+        geofenceList.add(new GeofenceModel("Dom 1 - SDL", new LatLng(46.050412, 14.487991), 1000,
+                Geofence.GEOFENCE_TRANSITION_ENTER, 1000, Geofence.NEVER_EXPIRE));
+        geofenceList.add(new GeofenceModel("FRI", new LatLng(46.050550, 14.468805), 1500,
                 Geofence.GEOFENCE_TRANSITION_ENTER,1000, Geofence.NEVER_EXPIRE));
-        geofenceList.add(new GeofenceModel("g. Viktor", new LatLng(46.045345, 14.480930), 100,
+        geofenceList.add(new GeofenceModel("g. Viktor", new LatLng(46.045345, 14.480930), 1000,
                 Geofence.GEOFENCE_TRANSITION_EXIT, 1000, Geofence.NEVER_EXPIRE));
-        geofenceList.add(new GeofenceModel("Visko polje", new LatLng(46.045971, 14.469456), 100,
+        geofenceList.add(new GeofenceModel("Visko polje", new LatLng(46.045971, 14.469456), 1000,
                 Geofence.GEOFENCE_TRANSITION_ENTER, 1000, Geofence.NEVER_EXPIRE));
     }
 

@@ -3,16 +3,15 @@ package com.cotnic.thesis.geofencethesis;
 import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,6 +21,7 @@ import com.cotnic.thesis.geofencethesis.model.GeofenceList;
 import com.cotnic.thesis.geofencethesis.model.GeofenceModel;
 import com.cotnic.thesis.geofencethesis.services.GeofenceService;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.Geofence;
@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSIONS_CODE = 20002;
 
+    private GoogleApiClient mGoogleApiClient;
+
     private GeofencingClient mGeofencingClient;
 
     private PendingIntent mGeofencePendingIntent;
@@ -49,12 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment selectedFragment = null;
 
-    private GoogleApiClient mGoogleApiClient;
-
     private FusedLocationProviderApi mFusedLocationApi;
 
     private Location mCurrentLocation;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.wtf(TAG, "onCreate()");
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        checkLocationPermission();
+        checkLocationPermission(PERMISSIONS_CODE);
 
         mGeofenceList = new ArrayList<>();
 
@@ -83,11 +84,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_layout, selectedFragment);
         transaction.commit();
 
-        createGeofenceList();
-
         mGeofencingClient = LocationServices.getGeofencingClient(this);
 
-        addGeofences();
+        createGeofenceList();
     }
 
     @Override
@@ -98,9 +97,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+        if(available != ConnectionResult.SUCCESS) {
+            GoogleApiAvailability.getInstance().getErrorDialog(this, available, 1).show();
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        // Disconnect GoogleApiClient when stopping Activity
         if (mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
     }
@@ -134,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     public void getGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
-                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {                 // Callback that handles connections
+                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
                     public void onConnected(@Nullable Bundle bundle) {
                         Log.wtf(TAG, "Connected to GoogleApiClient");
@@ -156,13 +164,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    private GeofencingRequest getGeofencingRequest() {
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        builder.addGeofences(mGeofenceList);
-        return builder.build();
-    }
-
     @SuppressWarnings("MissingPermission")
     protected void createLocationRequest() {
         LocationRequest mLocationRequest = LocationRequest.create()
@@ -178,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                     ((GMapFragment) selectedFragment).setMapCurrentLocation(mCurrentLocation);
             }
         });
-
     }
 
     public void createGeofenceList() {
@@ -196,10 +196,26 @@ public class MainActivity extends AppCompatActivity {
                     .setTransitionTypes(geofence.getTransition())
                     .build());
         }
+        addGeofenceList();
+    }
+
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder()
+                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+                .addGeofences(mGeofenceList);
+        return builder.build();
+    }
+
+    private PendingIntent getGeofencePendingIntent() {
+        if (mGeofencePendingIntent != null) {
+            return mGeofencePendingIntent;
+        }
+        Intent intent = new Intent(this, GeofenceService.class);
+        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @SuppressWarnings("MissingPermission")
-    private void addGeofences() {
+    private void addGeofenceList() {
         mGeofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
                 .addOnSuccessListener(this, new OnSuccessListener<Void>() {
                     @Override
@@ -215,41 +231,24 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private PendingIntent getGeofencePendingIntent() {
-        if (mGeofencePendingIntent != null) {
-            return mGeofencePendingIntent;
-        }
-        Intent intent = new Intent(this, GeofenceService.class);
-        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    private void removeGeofences() {
+        mGeofencingClient.removeGeofences(getGeofencePendingIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.wtf(TAG, "removeGeofences() - succesfully removed");
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.wtf(TAG, "removeGeofences() - failed to removed");
+                    }
+                });
     }
 
-    public void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Log.wtf(TAG, "permission denied, show dialog");
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_CODE);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSIONS_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.wtf(TAG, "Permission was granted");
-                } else {
-                    Log.wtf(TAG, "Permission was denied!");
-                }
-                return;
-            }
-        }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void checkLocationPermission(int requestCode) {
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, requestCode);
     }
 }

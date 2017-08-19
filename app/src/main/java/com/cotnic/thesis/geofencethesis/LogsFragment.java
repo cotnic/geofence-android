@@ -9,15 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import static android.content.ContentValues.TAG;
-
-
 public class LogsFragment extends Fragment {
 
     private TextView mLogView;

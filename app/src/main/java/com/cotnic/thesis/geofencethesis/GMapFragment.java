@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.cotnic.thesis.geofencethesis.model.GeofenceList;
 import com.cotnic.thesis.geofencethesis.model.GeofenceModel;
@@ -21,17 +20,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class GMapFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = GMapFragment.class.getSimpleName();
 
     LatLng mapCurrentLocation;
-    ProgressBar progressBar;
+    Marker mMarkerLocation;
 
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -82,7 +81,10 @@ public class GMapFragment extends Fragment implements OnMapReadyCallback {
         if(mapCurrentLocation == null)
             setZoom = true;
         mapCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        mGoogleMap.addMarker(new MarkerOptions()
+        if (mMarkerLocation != null) {
+            mMarkerLocation.remove();
+        }
+        mMarkerLocation = mGoogleMap.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                 .position(mapCurrentLocation)
                 .title("Trenutna pozicija")
