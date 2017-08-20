@@ -5,71 +5,33 @@
     android:orientation="vertical"
     tools:context="com.cotnic.thesis.geofencethesis.LogsFragment">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <Switch
+        android:id="@+id/geofence_switch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Geofence Logging" />
 
-        <Button
-            android:id="@+id/btnLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Locations" />
-
-        <Button
-            android:id="@+id/btnGeofence"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Geofences" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <Switch
+        android:id="@+id/location_switch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginBottom="20dp"
+        android:text="Location Logging" />
 
-        <Button
-            android:id="@+id/btnClearLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Clear Locations"/>
-
-        <Button
-            android:id="@+id/btnClearGeofence"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Clear Geofences"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/btnGeofence"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="20dp"
+        android:text="Show Logged Geofences" />
 
-        <TextView
-            android:id="@+id/tvLogging"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="LOGS fragment" />
-
-        <TextView
-            android:id="@+id/tvLocations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="LOCATIONS: OFF" />
-
-        <TextView
-            android:id="@+id/tvGeofences"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="GEOFENCES: OFF" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvLogging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Geofence LOG data" />
 
 </LinearLayout>
